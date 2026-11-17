@@ -1,47 +1,38 @@
-# Prussian Workstation · Harshaa portfolio hybrid
+# Harshaa's - Original's | Startup Placeholder
 
-A **standalone, no-install** personal-engineering-portfolio homepage prototype mixing retro-computer interface design with futuristic movement and a Prussian-blue palette.
+A functional, responsive retro-futuristic boot screen inspired by old industrial computer UIs, with a Prussian blue / ice-cyan palette.
 
-## Open the prototype
+## Preview
 
-1. Extract the ZIP.
-2. Open `index.html` in Chrome, Edge, or Firefox.
-3. Scroll through the homepage, click a project, try the filters, and toggle the orbital scan / CRT controls in the header.
-4. Try the responsive layout by narrowing the browser window.
+Open `index.html` in any browser. No installations or dependencies needed.
 
-No Node.js, server, build command, paid fonts, or external assets required. The only external link is the LinkedIn link.
+## Interactions
 
-## What's included
+- The CRT powers on, boot log steps appear, progress bar fills, and the headline reveals.
+- Click `[ R ] REBOOT` or press **R** to replay the introduction.
+- Click `[ ESC ] SKIP` or press **Escape** to jump to the finished screen.
+- `prefers-reduced-motion` is respected: visitors with reduced-motion preferences see the finished state immediately.
+- A live clock displays the visitor's device time (decorative).
 
-- `index.html`: complete homepage structure, including hero, selected projects, journal concepts, about, CV placeholder and lab.
-- `styles.css`: shared retro-workstation base styles.
-- `prussian.css`: **Prussian-blue hybrid theme** and animation enhancements. This is the best place to customize the look.
-- `script.js`: filters, modal previews, responsive menu, CRT/scan controls, scroll entrances, scroll-progress indicator, and gentle hero parallax.
-- `DESIGN_NOTES.md`: design rationale and next steps.
-- `preview-desktop-hero.png` and `preview-mobile-hero.png`: sample screenshots.
+## Files
 
-## Features you can test
+- `index.html` — content and structure.
+- `styles.css` — all visuals, effects, responsive rules, and keyframe animations.
+- `script.js` — boot/replay/skip logic and clock.
+- `harshaa-startup-standalone.html` — same experience with all CSS and JavaScript embedded in one HTML file, convenient for one-file hosting.
 
-- Orbiting scanner sweep + floating satellite illustration, with **SCAN ON/OFF**.
-- Optional CRT effect (**CRT ON/OFF**).
-- Subtle hero parallax while scrolling on desktop.
-- Scroll-reveal sections and page entrance animation.
-- Scroll-reading progress indicator.
-- Filter the four project cards (all / hardware / software).
-- Click a project card to see its modal preview; close with button or Esc.
-- Responsive mobile navigation.
-- Playground idea generator.
-- Motion-reduction support with `prefers-reduced-motion`.
+## Publish to Cloudflare
 
-## Important before you publish
+### Cloudflare Workers / Astro
 
-- The project summaries are draft descriptions, not complete verified case studies. Replace them with your approved photos, exact contributions, test results and project links.
-- The CV area currently says **FILE PENDING** and intentionally does not link to an invented PDF. Add your real CV before publishing.
-- The journal entries are **draft ideas**, not full articles.
-- The orbital data is a **fictional animation demo**, not live satellite telemetry.
-- This is a **one-page prototype**, not yet a multi-page Astro site. Project modals demonstrate a page-opening interaction; real page transitions and dedicated `/projects/...` pages are future work.
-- Video backgrounds are not included yet; these will be most effective once actual engineering footage is available.
+For an Astro project, copy these files into `public/` and ensure the project routes `/` appropriately, or port the page into an Astro component (recommended when you begin building the full portfolio).
 
-## Next step: Astro + Cloudflare
+### Zero-build static deploy
 
-Once the direction is approved, migrate `index.html` into `src/pages/index.astro`, turn its sections into Astro components, keep `prussian.css` as the global theme layer, and add real Markdown/MDX project case studies. Deploy the resulting static build on Cloudflare Workers Static Assets.
+Deploy these three files as static assets on any static hosting service. The entrypoint is `index.html`. The standalone file can be renamed `index.html` and served without other files.
+
+## Customize
+
+In `styles.css`, change the variables at the top, particularly `--prussian`, `--ice`, `--pale`, and `--muted`. In `index.html`, change the main text and status messages. In `script.js`, change boot animation timing and diagnostics text reveal delays.
+
+No external images, fonts, JavaScript libraries, or APIs are used. The radar artwork and CRT effects are CSS-generated.
