@@ -1,38 +1,41 @@
-# Harshaa's - Original's | Startup Placeholder
+# Harshaa's — Original's / Minimal Workstation v3
 
-A functional, responsive retro-futuristic boot screen inspired by old industrial computer UIs, with a Prussian blue / ice-cyan palette.
+A minimalist retro-futuristic placeholder website. Deep Prussian blue, quiet workstation chrome, carefully spaced typography, an animated oscilloscope trace, and a 1.1-second CRT power-on sequence. Built with HTML, CSS and vanilla JavaScript, with no packages, React runtime, external fonts, images or network requests.
 
 ## Preview
 
-Open `index.html` in any browser. No installations or dependencies needed.
+- Open `index.html` in a browser, or open `standalone.html` (identical single-file build).
+- Click **Replay startup** or press `R` to replay.
+- Press `Escape` or click **Skip intro** to bypass the boot effect.
+- Respects your OS **Reduce Motion** accessibility preference.
 
-## Interactions
+## Deploy to Cloudflare
 
-- The CRT powers on, boot log steps appear, progress bar fills, and the headline reveals.
-- Click `[ R ] REBOOT` or press **R** to replay the introduction.
-- Click `[ ESC ] SKIP` or press **Escape** to jump to the finished screen.
-- `prefers-reduced-motion` is respected: visitors with reduced-motion preferences see the finished state immediately.
-- A live clock displays the visitor's device time (decorative).
+### Existing Astro project
+Place the content inside your Astro project as your homepage, or copy the files into `public/` as a standalone static landing page while working on the full website. If using `public/`, avoid a conflicting generated `index.html` route in Astro.
 
-## Files
-
-- `index.html` — content and structure.
-- `styles.css` — all visuals, effects, responsive rules, and keyframe animations.
-- `script.js` — boot/replay/skip logic and clock.
-- `harshaa-startup-standalone.html` — same experience with all CSS and JavaScript embedded in one HTML file, convenient for one-file hosting.
-
-## Publish to Cloudflare
-
-### Cloudflare Workers / Astro
-
-For an Astro project, copy these files into `public/` and ensure the project routes `/` appropriately, or port the page into an Astro component (recommended when you begin building the full portfolio).
-
-### Zero-build static deploy
-
-Deploy these three files as static assets on any static hosting service. The entrypoint is `index.html`. The standalone file can be renamed `index.html` and served without other files.
+### Static Cloudflare Pages / Workers asset deployment
+Set the static output directory to this folder, or place the three files in your configured static asset directory, and serve `index.html`.
 
 ## Customize
 
-In `styles.css`, change the variables at the top, particularly `--prussian`, `--ice`, `--pale`, and `--muted`. In `index.html`, change the main text and status messages. In `script.js`, change boot animation timing and diagnostics text reveal delays.
+- `index.html`: heading, brand name, status messages, description.
+- `styles.css`: color variables near the top, layout, animation timings.
+- `script.js`: reboot sequencing, shortcuts, skip control.
 
-No external images, fonts, JavaScript libraries, or APIs are used. The radar artwork and CRT effects are CSS-generated.
+Colors:
+- `#071a28` main deep navy
+- `#0a2537` Prussian-tinted surfaces
+- `#a5cedc` quiet blue highlight
+- `#eaf0ed` warm off-white copy
+
+## Why no React, Motion Primitives, or Unicorn Studio embed?
+
+This is a single, mostly static placeholder page. The precise power-on reveal and type entrance are lightweight and reliable with native CSS, rather than adding a JavaScript runtime, a library, or a third-party scene. For the full portfolio, Astro can host specific React components using Motion Primitives, and Unicorn Studio can be used for one or two more ambitious scenes if the design calls for them.
+
+Reference inspiration:
+- https://refero.design/
+- https://motion-primitives.com/docs/text-effect
+- https://www.unicorn.studio/docs/embed/
+
+All code in this package is original rather than copied from third-party component collections.

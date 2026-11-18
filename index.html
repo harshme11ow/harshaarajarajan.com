@@ -1,89 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#04111b">
-  <meta name="description" content="Harshaa's - Original's. Personal projects, experiments, and stories. Website in progress.">
-  <title>Harshaa's - Original's | Website in Progress</title>
-  <script>document.documentElement.classList.add('js');</script>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071a28" />
+  <meta name="description" content="Harshaa's — Original's. A personal archive of engineering, writing, and experiments. Website in progress." />
+  <title>Website in progress — Harshaa's - Original's</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script>document.documentElement.classList.add('has-js');</script>
+  <script defer src="./script.js"></script>
 </head>
 <body>
-  <div class="site-wrap">
-    <div class="outside-serial" aria-hidden="true">HO—OS / 01&nbsp;&nbsp; // &nbsp;&nbsp;PERSONAL ARCHIVE INTERFACE</div>
-    <main class="machine" data-state="off" aria-label="Harshaa's Original's retro terminal startup">
-      <div class="glass" aria-hidden="true"></div>
-      <div class="power-flare" aria-hidden="true"></div>
-      <div class="scanlines" aria-hidden="true"></div>
-      <div class="noise" aria-hidden="true"></div>
-      <div class="static-flicker" aria-hidden="true"></div>
-
-      <div class="monitor-content">
-        <header class="top-bar">
-          <div class="masthead"><span class="brand-icon">H<span class="brand-slash">/</span>O</span><span>ORIGINALS OPERATING SYSTEM</span><span class="version">VER 0.01.26</span></div>
-          <div class="top-status"><span class="status-led"></span><span id="statusLabel">INITIALIZING</span><span class="header-clock" id="clock" aria-label="Your device's local time">--:--:--</span></div>
-        </header>
-
-        <section class="console-grid">
-          <div class="console-main">
-            <div class="eyebrow"><span class="bracket">[</span> USER PROFILE / ENGINEERING / CREATIVE WORK <span class="bracket">]</span></div>
-            <div class="wordmark">Harshaa's <span class="wordmark-divider">—</span> Original's<span class="blink">_</span></div>
-            <div class="thin-rule"><span></span><span></span><span></span></div>
-
-            <div class="hero" id="hero">
-              <p class="label-kicker">SYSTEM MESSAGE <span>001 / 001</span></p>
-              <h1 class="hero-title"><span class="text-shift" data-text="WEBSITE">WEBSITE</span><span class="outline-text">IN PROGRESS<span class="caret">▌</span></span></h1>
-              <p class="intro">Hi. I'm Harshaa. Obviously, I'm not done yet. Check back later. Or not, idk.<br>Projects, experiments, and other original work are on their way.</p>
-              <div class="notice"><span class="notice-icon">!</span><span><strong>ACCESS NOTICE</strong><br>This archive is currently being assembled. Please check back soon.</span></div>
-            </div>
-
-            <section class="boot-zone" aria-label="Startup diagnostics">
-              <div class="zone-heading"><span>// STARTUP DIAGNOSTICS</span><span>SYS_LOG.TXT</span></div>
-              <div class="boot-logs" id="bootLogs" aria-live="off">
-                <div class="log-line"><span class="log-prompt">&gt;</span> Initializing display interface <span class="log-state">[ OK ]</span></div>
-                <div class="log-line"><span class="log-prompt">&gt;</span> Loading original files <span class="log-state">[ OK ]</span></div>
-                <div class="log-line"><span class="log-prompt">&gt;</span> Checking project archive <span class="log-state">[ OK ]</span></div>
-                <div class="log-line"><span class="log-prompt">&gt;</span> Establishing systems uplink <span class="log-state">[ OK ]</span></div>
-                <div class="log-line warning"><span class="log-prompt">&gt;</span> Public access <span class="log-state">[ PENDING ]</span></div>
-              </div>
-            </section>
-          </div>
-
-          <aside class="console-side" aria-label="Animated radar system visual">
-            <div class="panel-heading"><span><span class="square-led"></span> SIGNAL MONITOR</span><span>CH. 07</span></div>
-            <div class="radar-card">
-              <div class="radar" aria-hidden="true">
-                <div class="radar-inner r1"></div>
-                <div class="radar-inner r2"></div>
-                <div class="radar-inner r3"></div>
-                <div class="crosshair horizontal"></div><div class="crosshair vertical"></div>
-                <div class="radar-beam"></div>
-                <div class="radar-point point-a"></div><div class="radar-point point-b"></div><div class="radar-point point-c"></div>
-                <div class="radar-core">H<span>/</span>O<small>SYS</small></div>
-              </div>
-              <div class="radar-corner top-left">N ↟</div><div class="radar-corner bottom-right">SCANNING ...</div>
-            </div>
-            <div class="data-table"><div><span>CHANNEL</span><strong>PRIVATE / 007</strong></div><div><span>ARCHIVE</span><strong>IN DEVELOPMENT</strong></div><div><span>LAST UPDATE</span><strong>ONGOING</strong></div><div><span>EXPERIMENTS</span><strong>LOADING...</strong></div></div>
-            <div class="spectrum" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          </aside>
-        </section>
-
-        <footer class="terminal-footer">
-          <div class="footer-left">
-            <div class="boot-progress-label"><span>BOOT PROCESS</span><span id="progressText">0%</span></div>
-            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-            <div class="footer-message" id="footerMessage">&gt; INITIALIZING STARTUP SEQUENCE<span class="blink">█</span></div>
-          </div>
-          <div class="footer-actions">
-            <button id="skipButton" class="terminal-button secondary" type="button">[ ESC ] SKIP</button>
-            <button id="rebootButton" class="terminal-button" type="button">[ R ] REBOOT <span aria-hidden="true">↻</span></button>
-          </div>
-        </footer>
-      </div>
-    </main>
-    <div class="outside-footer"><span>DESIGNED & BUILT BY HARS HAA <span class="footer-dash">//</span> 2026</span><span>EST. ON EARTH <span class="footer-dash">•</span> STILL IN ORBIT</span></div>
+  <div class="boot-cover" id="bootCover" aria-hidden="true">
+    <div class="boot-beam"></div>
+    <div class="boot-flash"></div>
+    <span class="boot-caption">H/OS <span>—</span> INITIALIZING</span>
   </div>
+
+  <div class="page" id="page">
+    <div class="frame-corner corner-tl" aria-hidden="true"></div>
+    <div class="frame-corner corner-tr" aria-hidden="true"></div>
+    <div class="frame-corner corner-bl" aria-hidden="true"></div>
+    <div class="frame-corner corner-br" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="identity" href="./index.html" aria-label="Harshaa's Original's homepage">
+        <span class="identity-symbol" aria-hidden="true">H<span class="identity-asterisk">*</span></span>
+        <span class="identity-name">Harshaa's <span class="identity-dash">—</span> Original's</span>
+      </a>
+      <div class="topbar-meta">
+        <span class="edition">PERSONAL ARCHIVE / 2026</span>
+        <span class="top-status"><i aria-hidden="true"></i> IN DEVELOPMENT</span>
+      </div>
+    </header>
+
+    <main class="hero">
+      <section class="intro" aria-labelledby="hero-title">
+        <div class="eyebrow"><span class="eyebrow-square" aria-hidden="true"></span> <span>H/OS</span> <span class="slash">/</span> <span>WELCOME SCREEN</span> <span class="edition-no">001</span></div>
+        <h1 id="hero-title">Website<br /><span>in progress<span class="period">.</span></span></h1>
+        <div class="intro-rule" aria-hidden="true"><span></span></div>
+        <p class="description">A home for things I make, things I learn, and things I find interesting. A little more time in the workshop.</p>
+        <div class="small-note"><span class="mini-cursor" aria-hidden="true"></span><span>Building something worth exploring.</span></div>
+      </section>
+
+      <aside class="console" aria-label="Decorative workstation status display">
+        <div class="console-chrome">
+          <span>WORKSTATION <span class="slash">/</span> A</span>
+          <span class="chrome-actions" aria-hidden="true"><b></b><b></b><b></b></span>
+        </div>
+        <div class="scope" aria-hidden="true">
+          <div class="scope-grid"></div>
+          <svg class="scope-wave" viewBox="0 0 420 188" preserveAspectRatio="none" aria-hidden="true">
+            <path class="scope-base" d="M 0 95 H 420" />
+            <path class="scope-path" d="M 0 94 L 46 94 Q 60 94 72 78 C 80 69 85 117 95 117 S 110 47 123 47 S 134 140 148 140 S 167 64 180 65 S 201 108 215 108 S 233 89 246 89 S 265 95 282 95 L 420 95" />
+            <path class="scope-point" d="M 282 95 L 420 95" />
+          </svg>
+          <span class="scope-label scope-label-top">SIGNAL / 01</span>
+          <span class="scope-label scope-label-bottom">AWAITING INPUT<span class="cursor">_</span></span>
+          <div class="scope-cross" aria-hidden="true">+</div>
+        </div>
+        <div class="console-content">
+          <div class="console-label"><span>BOOT LOG</span><span id="logStatus">READY</span></div>
+          <div class="log-lines" id="bootLog" aria-live="off">
+            <div class="log-line"><span class="log-id">01</span><span>Initializing workspace</span><span class="log-ok">OK</span></div>
+            <div class="log-line"><span class="log-id">02</span><span>Collecting projects</span><span class="log-ok">OK</span></div>
+            <div class="log-line"><span class="log-id">03</span><span>Writing the next chapter</span><span class="log-pending">…</span></div>
+          </div>
+        </div>
+        <div class="console-foot"><span>STATUS: <strong>UNDER CONSTRUCTION</strong></span><span class="tiny-block" aria-hidden="true"></span></div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span class="footer-left">ENGINEERING <span class="footer-dot">·</span> DESIGN <span class="footer-dot">·</span> CURIOSITY</span>
+      <div class="footer-right"><span class="footer-version">REV. 00 / 2026</span><button type="button" class="replay" id="replayButton" aria-label="Replay startup animation"><span class="replay-icon" aria-hidden="true">↻</span> REPLAY STARTUP</button></div>
+    </footer>
+  </div>
+  <button type="button" class="skip" id="skipButton">SKIP INTRO <span aria-hidden="true">↗</span></button>
 </body>
 </html>
