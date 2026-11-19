@@ -259,12 +259,75 @@ em { font-style: normal; color: var(--blue); }
 .footer-mark { color:var(--blue); }
 .footer-dot { color:var(--cyan); margin:0 15px; }
 .global-footer a { color:var(--blue); }
-/* BASIC VIEW TRANSITIONS */
-@view-transition { navigation:auto; }
+/* ASTRO CLIENT ROUTER TRANSITIONS (do not enable native cross-document routing too) */
 ::view-transition-old(root) { animation:.19s ease-in fade-out; }
 ::view-transition-new(root) { animation:.28s ease-out fade-in; }
 @keyframes fade-out { to{opacity:0;} }
 @keyframes fade-in { from{opacity:0;} }
+/* HOME-ONLY CRT STARTUP — purposefully quiet and brief */
+.home-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #061724;
+  opacity: 1;
+  transition: opacity 320ms ease;
+}
+.home-boot.is-exiting { opacity: 0; pointer-events: none; }
+.home-boot-beam {
+  position: absolute;
+  inset: 0;
+  background: #c7e2e8;
+  opacity: 0;
+  transform: scale(0, 0.005);
+  animation: home-screen-on 1.14s cubic-bezier(.25,.7,.25,1) both;
+}
+@keyframes home-screen-on {
+  0% { opacity: 0; transform: scale(0, 0.005); }
+  17% { opacity: .8; transform: scale(.65, .005); }
+  31% { opacity: 1; transform: scale(1, .005); }
+  51% { opacity: .22; transform: scale(1, 1); }
+  80%, 100% { opacity: 0; transform: scale(1, 1); }
+}
+.home-boot-caption {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  color: #a5d1de;
+  font: 500 11px var(--mono);
+  letter-spacing: .14em;
+  animation: home-boot-text 1.17s ease both;
+}
+.home-boot-caption strong { font: 600 12px var(--mono); }
+.home-boot-caption span { font-size: 10px; color: var(--muted-2); }
+@keyframes home-boot-text {
+  0%, 35% { opacity: 0; transform: translateY(6px); }
+  58%, 86% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; }
+}
+.home-boot-skip {
+  position: absolute;
+  right: 35px;
+  bottom: 29px;
+  z-index: 2;
+  border: 0;
+  background: none;
+  color: #a5d1de;
+  padding: 10px;
+  font: 500 10px var(--mono);
+  letter-spacing: .09em;
+}
+.home-boot-skip:hover { color: #fff; }
+@media (prefers-reduced-motion: reduce) {
+  .home-boot { display: none; }
+}
+
 /* RESPONSIVE */
 @media(max-width:1160px) { .nav-shell {gap:12px;} .nav-brand {min-width:auto;} .nav-status {display:none;} .halo-link{padding-inline:14px;} .home-hero{grid-template-columns:1fr;gap:20px;padding-top:52px;} .home-copy{max-width:760px;} .home-copy h1{font-size:clamp(54px,8.1vw,95px);} .home-visual{max-width:800px;width:100%;justify-self:center;} .hero-coda{margin-top:45px;} .project-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
 @media(max-width:760px) { .wrap{width:calc(100% - 34px);} .nav-shell{height:auto;min-height:102px;flex-wrap:wrap;gap:10px;padding-block:12px 14px;} .nav-brand{flex:1 0 100%;} .nav-wordmark span{display:inline;margin-left:4px;} .nav-scroller{width:100%;} .halo-link{padding:9px 15px;} .home-hero{padding:58px 0 65px;} .home-copy h1{font-size:clamp(43px,10vw,70px);} .hero-intro{font-size:15px;} .hero-coda{margin-top:44px;} .satellite-viewport{height:300px;} .satellite-readout{grid-template-columns:1fr;gap:11px;} .satellite-controls{flex-direction:column;} .sat-part-picker{justify-content:space-between;} .project-grid,.project-grid--archive,.notes-grid,.related-projects .project-grid{grid-template-columns:1fr;} .project-art{height:255px;} .section-pad{padding-block:60px 75px;} .section-head{align-items:start;flex-direction:column;} .home-about-grid{grid-template-columns:1fr;gap:12px;padding-block:50px 75px;} .about-symbol{min-height:150px;font-size:145px;} .contact-band-inner{align-items:start;flex-direction:column;} .page-main{padding-top:60px;} .page-heading{margin-bottom:47px;} .page-heading h1{font-size:clamp(46px,10vw,72px);} .case-meta{grid-template-columns:1fr;gap:18px;} .case-visual{height:300px;} .case-layout{grid-template-columns:1fr;gap:40px;padding-top:54px;} .case-index{position:static;flex-flow:row wrap;gap:10px 20px;} .case-index .eyebrow{flex-basis:100%;} .about-page-grid,.cv-grid,.connect-layout{grid-template-columns:1fr;gap:25px;} .portrait-placeholder{min-height:320px;} .cv-col-label{border-bottom:0;padding-bottom:0;} .cv-row{padding-top:0;} .value-grid{grid-template-columns:1fr;} .value-grid h3{margin-top:16px;} .global-footer{align-items:start;flex-direction:column;justify-content:center;padding-block:20px;} }

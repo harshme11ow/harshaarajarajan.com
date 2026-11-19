@@ -1,5 +1,6 @@
 ---
 import SiteNav from '../components/SiteNav.jsx';
+import { ClientRouter } from 'astro:transitions';
 import { site } from '../data/site.js';
 import '../styles/global.css';
 
@@ -19,13 +20,14 @@ const path = Astro.url.pathname;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body>
     <div class="site-frame">
-      <SiteNav client:load currentPath={path} />
+      <SiteNav client:load currentPath={path} transition:persist />
       <slot />
       <footer class="global-footer wrap">
-        <span><span class="footer-mark">H/O</span> &nbsp; HARSHAA'S ORIGINALS</span>
+        <span><span class="footer-mark">H/R</span> &nbsp; HARSHAA'S ORIGINALS</span>
         <span>ENGINEERED WITH CURIOSITY <span class="footer-dot">●</span> <a href="/connect">LET'S CONNECT ↗</a></span>
       </footer>
     </div>
