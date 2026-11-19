@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { journal } from '../../data/journal.js';
+---
+<BaseLayout title="Journal — Harshaa's Originals">
+  <main class="wrap page-main"><div class="page-heading enter"><span class="eyebrow">FIELD NOTES / WORK IN PROGRESS</span><h1>Journal<span class="period">.</span></h1><p>Smaller observations, work logs, unfinished thoughts, and ideas that haven't grown into full projects yet.</p></div><div class="journal-list">{journal.map((entry, i) => <a class="journal-row" href={`/journal/${entry.slug}`}><span class="journal-number">{String(i + 1).padStart(2, '0')}</span><div><span class="eyebrow">{entry.date} / {entry.category}</span><h2>{entry.title}</h2><p>{entry.description}</p></div><span class="journal-arrow">↗</span></a>)}</div><p class="hint">The initial entries are sample content. Replace them in <code>src/data/journal.js</code>.</p></main>
+</BaseLayout>
