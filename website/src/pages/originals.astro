@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { originals } from '../data/originals.js';
+---
+<BaseLayout title="Harshaa's Originals — Video, stories & creative work"
+  description="Vlogs, creative experiments, filmmaking and stories outside the engineering lab.">
+  <main class="page-main originals-page wrap">
+    <header class="page-heading originals-heading enter">
+      <span class="eyebrow">PERSONAL ARCHIVE / THE CREATIVE SIDE</span>
+      <h1>Harshaa's <em>Originals.</em></h1>
+      <p>Not everything needs a schematic. A home for the videos I make, the places I go, and the stories I want to remember.</p>
+      <div class="originals-heading-meta"><span>VIDEO / VLOG / EXPERIMENT</span><span>COLLECTION 001 — IN PROGRESS</span></div>
+    </header>
+
+    <section class="originals-feature" aria-labelledby="originals-feature-title">
+      <div class="originals-feature-media" aria-label="Featured video placeholder">
+        <div class="originals-viewfinder" aria-hidden="true">
+          <span class="originals-crosshair">+</span>
+          <span class="originals-play-symbol">▷</span>
+          <span class="originals-timecode">00:00:00:00</span>
+          <span class="originals-rec-dot">REC / STANDBY</span>
+        </div>
+        <span class="originals-view-label">FRAME_001 / UNRELEASED</span>
+      </div>
+      <div class="originals-feature-copy">
+        <span class="eyebrow">NOW RECORDING / SOON</span>
+        <h2>More than a <em>portfolio.</em></h2>
+        <p>The engineering projects get their own case studies. This corner is for the other side: documenting the journey, sharing moments, and making things simply because I want to.</p>
+        <a href="/connect" class="text-link">Follow along / get in touch ↗</a>
+      </div>
+    </section>
+
+    <section class="originals-archive section-pad" aria-labelledby="originals-archive-title">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">01 / CREATIVE ARCHIVE</span>
+          <h2 id="originals-archive-title">On the <em>record.</em></h2>
+        </div>
+        <span class="info-label">NEW WORK WILL APPEAR HERE</span>
+      </div>
+      <div class="originals-grid">
+        {originals.map((entry) => (
+          <article class="originals-card">
+            <div class="originals-card-media">
+              {entry.videoSrc ? (
+                <video controls playsinline preload="metadata" poster={entry.poster || undefined} aria-label={entry.title}>
+                  <source src={entry.videoSrc} type="video/mp4" />
+                  Your browser does not support video playback.
+                </video>
+              ) : entry.poster ? (
+                <img src={entry.poster} alt={`Cover image for ${entry.title}`} loading="lazy" />
+              ) : (
+                <div class="originals-media-placeholder" aria-label="Video forthcoming">
+                  <span class="originals-small-mark">H/R</span>
+                  <strong>{entry.id}</strong>
+                  <span>AWAITING FOOTAGE_</span>
+                </div>
+              )}
+              <span class="originals-media-tag">{entry.status}</span>
+            </div>
+            <div class="originals-card-info">
+              <span class="eyebrow">{entry.id} / {entry.category}</span>
+              <h3>{entry.title}</h3>
+              <p>{entry.description}</p>
+              {entry.href && <a href={entry.href} target="_blank" rel="noopener noreferrer" class="text-link">Watch / explore ↗</a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="originals-endnote">
+      <span class="eyebrow">A LITTLE NOTE</span>
+      <p>This page is still finding its shape. That's part of the fun.</p>
+      <a href="/projects" class="text-link">Back to the engineering work ↗</a>
+    </section>
+  </main>
+</BaseLayout>
