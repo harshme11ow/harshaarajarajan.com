@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects } from '../../data/projects.js';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+const { project } = Astro.props;
+const related = projects.filter((item) => item.slug !== project.slug).slice(0, 2);
+---
+<BaseLayout title={`${project.title} — Harshaa's Originals`} description={project.subtitle}>
+  <main class="wrap page-main case-study"><a href="/projects" class="breadcrumb">← BACK TO PROJECT ARCHIVE</a><div class="page-heading case-heading"><span class="eyebrow">PROJECT / {project.number} &nbsp; · &nbsp; {project.category}</span><h1>{project.title}<span class="period">.</span></h1><p>{project.subtitle}</p></div><div class="case-meta"><div><span>ROLE</span><strong>{project.role}</strong></div><div><span>TIMELINE</span><strong>{project.year}</strong></div><div><span>STATUS</span><strong>{project.status}</strong></div></div>
+    <div class={`case-visual art-${project.number}`}><div class="case-grid-overlay"></div><div class="case-diagram"><span>FIG. {project.number} / CONCEPT VISUAL</span><div class="diagram-orbits"><i></i><i></i><i></i><b>{project.number}</b></div><small>REPLACE WITH APPROVED PROJECT PHOTOGRAPHY</small></div></div>
+    <div class="case-layout"><aside class="case-index"><span class="eyebrow">DOCUMENT INDEX</span><a href="#overview">01 / OVERVIEW</a><a href="#challenge">02 / CHALLENGE</a><a href="#process">03 / PROCESS</a><a href="#outcome">04 / NEXT STEPS</a></aside><article class="case-content"><section id="overview"><span class="eyebrow">01 / OVERVIEW</span><h2>What this is about</h2><p>{project.intro}</p></section><section id="challenge"><span class="eyebrow">02 / THE CHALLENGE</span><h2>The engineering problem</h2><p>{project.challenge}</p></section><section id="process"><span class="eyebrow">03 / THE PROCESS</span><h2>Working through it</h2><ol>{project.approach.map((step) => <li>{step}</li>)}</ol></section><section id="outcome"><span class="eyebrow">04 / OUTCOME</span><h2>Current state</h2><p>{project.outcome}</p><div class="case-callout">WORKING DOCUMENT / Add real schematics, photos, measurements, and lessons learned to replace the current starter text.</div></section></article></div>
+    <section class="related-projects"><div class="section-head"><h2>Other work</h2><a href="/projects" class="text-link">View archive ↗</a></div><div class="project-grid">{related.map((p) => <ProjectCard project={p} compact />)}</div></section>
+  </main>
+</BaseLayout>

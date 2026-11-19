@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects } from '../../data/projects.js';
+---
+<BaseLayout title="Projects — Harshaa's Originals" description="Engineering project archive covering satellites, electric vehicles, embedded systems, and software.">
+  <main class="wrap page-main"><div class="page-heading enter"><span class="eyebrow">ARCHIVE / 001—004</span><h1>Project archive<span class="period">.</span></h1><p>Selected technical work, prototypes, and experiments. The interesting part is often what happens between the first schematic and the final test.</p></div><div class="archive-meta"><span>INDEX / ALL PROJECTS</span><span>4 ENTRIES</span></div><div class="project-grid project-grid--archive">{projects.map((project) => <ProjectCard project={project}/>)}</div><aside class="small-aside"><span class="eyebrow">A NOTE ABOUT THE ARCHIVE</span><p>Case studies are works in progress. Detailed data, diagrams, and test results will be added as projects mature and sharing permissions are confirmed.</p></aside></main>
+</BaseLayout>

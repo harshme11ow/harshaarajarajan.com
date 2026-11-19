@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site.js';
+const contacts = [
+  { label: 'LINKEDIN', value: 'Professional updates & connections', href: site.linkedin },
+  { label: 'GITHUB', value: 'Code, experiments, and repositories', href: site.github },
+  { label: 'INSTAGRAM', value: 'Outside the workbench', href: site.instagram },
+  { label: 'EMAIL', value: 'Say hello directly', href: site.email ? `mailto:${site.email}` : '' },
+];
+---
+<BaseLayout title="Connect — Harshaa's Originals">
+  <main class="wrap page-main"><div class="page-heading enter"><span class="eyebrow">OPEN CHANNEL / 001</span><h1>Let's connect<span class="period">.</span></h1><p>I'm always interested in good questions, ambitious engineering projects, and conversations with people who like making things.</p></div><div class="connect-layout"><div class="connect-intro"><span class="eyebrow">CURRENT STATUS</span><div class="connect-status"><span class="status-led"></span> OPEN TO CONVERSATION</div><p>For now, links are the simplest way to reach me. Add or edit your profiles in <code>src/data/site.js</code>.</p></div><div class="contact-list">{contacts.map((contact, i) => contact.href ? <a href={contact.href} class="contact-row" target={contact.href.startsWith('mailto:') ? undefined : '_blank'} rel={contact.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}><span class="contact-no">0{i+1}</span><div><strong>{contact.label}</strong><p>{contact.value}</p></div><span>↗</span></a> : <div class="contact-row contact-disabled"><span class="contact-no">0{i+1}</span><div><strong>{contact.label}</strong><p>{contact.value} · Add link in site.js</p></div><span>—</span></div>)}</div></div>
+  </main>
+</BaseLayout>

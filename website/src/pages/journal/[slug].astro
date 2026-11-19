@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { journal } from '../../data/journal.js';
+export function getStaticPaths() { return journal.map((entry) => ({params: { slug: entry.slug }, props: { entry }})); }
+const { entry } = Astro.props;
+---
+<BaseLayout title={`${entry.title} — Harshaa's Originals`} description={entry.description}>
+  <main class="wrap page-main"><a href="/journal" class="breadcrumb">← BACK TO JOURNAL</a><article class="journal-article"><span class="eyebrow">{entry.date} / {entry.category}</span><h1>{entry.title}<span class="period">.</span></h1><p class="journal-deck">{entry.description}</p><div class="article-rule"></div>{entry.paragraphs.map((paragraph) => <p>{paragraph}</p>)}<div class="case-callout">DEMO ENTRY / Please replace the sample journal text before publishing this page.</div></article></main>
+</BaseLayout>
