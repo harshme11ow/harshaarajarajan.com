@@ -1,18 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 
-// An animated, real-text ASCII storyboard. No canvas, images, WebGL, or external packages.
-// Four small scenes cycle continuously and dissolve character-by-character into one another.
+// Three-scene ASCII engineering reel: CubeSat comms, vehicle + telemetry,
+// and ESP32 wireless lighting control. All visuals are plain text.
 const W = 60;
 const H = 22;
-const SCENE_MS = 5400;
-const TRANSITION_START = 0.83;
+const SCENE_MS = 5900;
+const TRANSITION_START = 0.84;
 const STEP_MS = 90;
 
 const scenes = [
-  { id: "01", title: "ORBITAL HARDWARE", detail: "LAUNCH > DEPLOY", code: "SAT / 001" },
-  { id: "02", title: "VEHICLE SYSTEMS", detail: "DRIFT > TELEMETRY", code: "CAN / 500K" },
-  { id: "03", title: "CIRCUITS & IDEAS", detail: "INPUT > LIGHT", code: "VCC / ON" },
-  { id: "04", title: "SPEAKING & LEADERSHIP", detail: "IDEAS > IMPACT", code: "MUN / TALK" },
+  { id: "01", title: "ORBITAL HARDWARE", detail: "CUBESAT / RF LINK", code: "SAT / RF" },
+  { id: "02", title: "VEHICLE SYSTEMS", detail: "FAST RUN / TELEMETRY", code: "CAN / LIVE" },
+  { id: "03", title: "EMBEDDED ELECTRONICS", detail: "ESP32 / WIRELESS LIGHT", code: "MCU / RF" },
 ];
 
 function blank() {
@@ -25,7 +24,7 @@ function text(g, x, y, str) {
   for (let i = 0; i < str.length; i++) glyph(g, x + i, y, str[i]);
 }
 function stamp(g, x, y, lines) {
-  lines.forEach((line, i) => text(g, x, y + i, line));
+  lines.forEach((row, i) => text(g, x, y + i, row));
 }
 function line(g, x1, y1, x2, y2, char) {
   const steps = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1), 1);
@@ -33,16 +32,18 @@ function line(g, x1, y1, x2, y2, char) {
     glyph(g, Math.round(x1 + (x2 - x1) * n / steps), Math.round(y1 + (y2 - y1) * n / steps), char);
   }
 }
-function stars(g, count = 20, shift = 0) {
-  // Stable pseudo-random points: stars don't shimmer randomly from frame to frame.
+function stars(g, count = 20) {
   for (let i = 0; i < count; i++) {
-    let x = (i * 37 + 13 + shift) % W;
-    let y = (i * 11 + (i * i * 7) + 2) % H;
-    glyph(g, x, y, i % 6 === 0 ? "+" : ".");
+    const x = (i * 37 + 13) % W;
+    const y = (i * 11 + i * i * 7 + 2) % H;
+    glyph(g, x, y, i % 7 === 0 ? "+" : ".");
   }
 }
 function raster(g) {
   return g.map((row) => row.join("")).join("\n");
+}
+function clamp(x, a = 0, b = 1) {
+  return Math.min(b, Math.max(a, x));
 }
 function dissolve(from, to, amount) {
   if (amount <= 0) return from;
@@ -52,7 +53,6 @@ function dissolve(from, to, amount) {
   return a.map((row, y) => {
     let result = "";
     for (let x = 0; x < W; x++) {
-      // A staggered diagonal wipe with deterministic dithering at its edge.
       const noise = ((x * 17 + y * 13 + x * y * 3) % 23) / 23;
       const threshold = 0.07 + 0.79 * (x / (W - 1)) + 0.14 * noise;
       result += amount >= threshold ? b[y][x] : row[x];
@@ -61,169 +61,196 @@ function dissolve(from, to, amount) {
   }).join("\n");
 }
 
-function rocketFrame(p) {
+// Scene 1: CubeSat in orbit passing packets to and from the ground.
+function satelliteFrame(p) {
   const g = blank();
-  stars(g, 25);
-  // Orbital trace in the upper right, revealed as the rocket climbs.
-  for (let x = 34; x < 58; x++) {
-    const y = Math.round(7 - 3 * Math.sin((x - 34) / 24 * Math.PI));
-    if (x % 2 === 0) glyph(g, x, y, ".");
+  stars(g, 22);
+  text(g, 3, 1, "CUBESAT LINK / HR-CUBE-1        UHF / BIDIRECTIONAL");
+
+  const sx = 10 + Math.round(2 * Math.sin(p * Math.PI * 2));
+  const sy = 5 + Math.round(Math.sin(p * Math.PI * 2));
+  const radio = { x: sx + 11, y: sy + 4 };
+  const ground = { x: 48, y: 17 };
+
+  line(g, radio.x, radio.y, ground.x, ground.y, ".");
+  const downlink = p < 0.5;
+  const t = downlink ? p * 2 : (p - 0.5) * 2;
+  const f = downlink ? t : 1 - t;
+  const packetX = Math.round(radio.x + (ground.x - radio.x) * f);
+  const packetY = Math.round(radio.y + (ground.y - radio.y) * f);
+
+  if (downlink) {
+    text(g, 2, 17, "TX > BUS VOLT / TEMP / HEALTH");
+    text(g, 2, 19, "PACKET 104 / DOWNLINK");
+  } else {
+    text(g, 2, 17, "RX < ACK / COMMAND WINDOW");
+    text(g, 2, 19, "PACKET 104 / UPLINK");
   }
-  const rocketY = Math.round(12 - p * 17);
-  stamp(g, 17, rocketY, [
-    "     /\\     ",
-    "    /==\\    ",
-    "   | /\\ |   ",
-    "   | :: |   ",
-    "   | :: |   ",
-    "   |[##]|   ",
-    "  /|____|\\  ",
-    " /__|__|__\\ ",
-    "     ||     ",
+
+  // CubeSat with small deployable panels and an antenna boom.
+  stamp(g, sx, sy, [
+    "  [::::]===+---+=== [::::]  ",
+    "          /|###|\\         ",
+    "         +-|###|-+---->    ",
+    "          \\|###|/         ",
+    "            +---+          ",
   ]);
-  const fireLen = 2 + (Math.round(p * 8) % 3);
-  for (let i = 0; i < fireLen; i++) {
-    text(g, 21 + (i % 2), rocketY + 9 + i, i % 2 ? "/::\\" : " \\||/");
+
+  for (let x = 0; x < W; x += 2) {
+    const y = 20 + Math.round((x - 30) ** 2 / 650);
+    glyph(g, x, y, x % 4 === 0 ? "_" : ".");
   }
-  if (p < 0.31) {
-    text(g, 7, 20, "________ LAUNCH PAD / 001 ________");
-  }
-  if (p > 0.49) {
-    const satX = 32 + Math.round((p - 0.49) * 17);
-    const satY = 10 - Math.round((p - 0.49) * 9);
-    stamp(g, satX, satY, [
-      "   .----.   ",
-      "===|[##]|===",
-      "   '----'   ",
-    ]);
-    if (p > 0.68) text(g, 36, 17, "SATELLITE DEPLOYED");
-  }
+  stamp(g, 43, 15, [
+    "    /\\",
+    "   /||\\",
+    "  /_||_\\",
+    "    ||",
+  ]);
+  text(g, 38, 21, "GROUND / EARTH");
+  glyph(g, packetX, packetY, downlink ? ">" : "<");
   return raster(g);
 }
 
+// Scene 2A: short fast car.
 function carDriving(p) {
   const g = blank();
-  const x = Math.round(2 + p * 13);
-  const y = 9 + Math.round(Math.sin(p * Math.PI * 3) * 1);
-  line(g, 0, 18, 59, 18, "_");
-  line(g, 0, 19, 59, 19, ".");
-  stamp(g, x, y, [
-    "         _____________       ",
-    "    ____/  __   __   \\___   ",
-    " __/   /__/  \\_/  \\__  \\_ ",
-    "/___  _________________  ___\\",
-    "   (O)               (O)     ",
+  const tick = Math.floor(p * 42);
+  const y = 9 + (tick % 9 === 0 ? 1 : 0);
+  const wheel = tick % 2 === 0 ? "O" : "@";
+  text(g, 3, 2, "ROAD TEST / HIGH-SPEED RUN      SIMULATED VISUAL");
+  text(g, 39, 4, `SPEED ${Math.round(86 + p * 28)} MPH`);
+
+  for (let k = 0; k < 17; k++) {
+    const x = (k * 13 - tick * 4 + 6000) % W;
+    if (x < 23) text(g, x, 7 + (k % 3) * 2, k % 3 === 0 ? "====" : "--");
+  }
+  for (let k = 0; k < 13; k++) {
+    const x = (k * 11 - tick * 5 + 6000) % W;
+    text(g, x, 18, "______");
+    text(g, (x + 6) % W, 20, "----");
+  }
+  line(g, 0, 16, 59, 16, ".");
+
+  stamp(g, 16, y, [
+    "      _____________",
+    "  ___/ __     __  \\___",
+    " /___ /_/\\___/_/\\____\\",
+    "|_______________________|",
+    `    (${wheel})           (${wheel})`,
   ]);
-  for (let k = 0; k < 18; k++) {
-    const sx = x - (k * 3 % 28);
-    const sy = y + 3 + (k % 4);
-    glyph(g, sx, sy, k % 3 === 0 ? "o" : ".");
-  }
-  if (p > 0.15) {
-    for (let k = 0; k < 14; k++) {
-      const sx = x - (k * 4 % 28);
-      const sy = y + 5 + (k % 3);
-      glyph(g, sx, sy, k % 4 === 0 ? "~" : ".");
-    }
-  }
-  text(g, 39, 6, "DRIFT ANGLE / 32 DEG");
-  text(g, 39, 8, "TRACTION  ... OFF");
+  text(g, 3, 21, "MOTION VECTOR >> >> >>   ROAD / SENSOR FEED");
   return raster(g);
 }
 
 function vehicleTelemetry(p) {
   const g = blank();
   const rpm = Math.round(4700 + 850 * Math.sin(p * 8));
-  const speed = Math.round(58 + 14 * Math.sin(p * 5));
+  const speed = Math.round(96 + 14 * Math.sin(p * 5));
   text(g, 4, 3, "+-- VEHICLE TELEMETRY / SIMULATED FEED ----------------+");
-  text(g, 4, 5, `|  RPM       ${String(rpm).padStart(4, " ")}      CAN BUS   /  ONLINE`.padEnd(52) + "|");
+  text(g, 4, 5, `|  RPM       ${String(rpm).padStart(4)}      CAN BUS   /  ONLINE`.padEnd(52) + "|");
   text(g, 4, 7, "|  BOOST     13.2 PSI     THROTTLE  /  67%".padEnd(52) + "|");
-  text(g, 4, 9, `|  SPEED     ${String(speed).padStart(2, " ")} MPH       GEAR      /  3`.padEnd(52) + "|");
+  text(g, 4, 9, `|  SPEED     ${String(speed).padStart(3)} MPH      GEAR      /  3`.padEnd(52) + "|");
   const load = "#".repeat(Math.max(2, Math.round(11 + Math.sin(p * 8) * 4))).padEnd(22, ".");
   text(g, 4, 11, (`|  LOAD  [${load}]`).padEnd(52) + "|");
   text(g, 4, 14, "|    SIGNAL TRACE / THROTTLE RESPONSE".padEnd(52) + "|");
   for (let x = 11; x < 53; x++) {
-    const v = Math.sin((x / 3.2) - p * 12) * 1.5 + Math.sin(x / 6) * 1.6;
+    const v = Math.sin(x / 3.2 - p * 12) * 1.5 + Math.sin(x / 6) * 1.6;
     glyph(g, x, Math.round(17 - v), v > 0 ? "/" : "\\");
   }
   text(g, 4, 20, "+--------------------------------------------------+");
   return raster(g);
 }
 function carFrame(p) {
-  const drive = carDriving(Math.min(1, p * 1.4));
+  const drive = carDriving(clamp(p / 0.50));
   const telemetry = vehicleTelemetry(p);
-  return dissolve(drive, telemetry, Math.max(0, Math.min(1, (p - 0.48) / 0.28)));
+  // Split the scene evenly between road-test imagery and telemetry.
+  return dissolve(drive, telemetry, clamp((p - 0.40) / 0.20));
 }
 
+// Scene 3: ESP32 sends wireless control signal to a remote lamp receiver.
 function bulbFrame(p) {
   const g = blank();
-  // A schematic trace reaches the switch and closes the loop.
-  text(g, 2, 16, "+-- VCC ------[ R ]---o");
-  text(g, 25, 16, p > 0.27 ? "o---------+" : "/  o-------+");
-  line(g, 36, 16, 36, 12, "|");
-  line(g, 36, 12, 31, 12, "-");
-  const on = p > 0.32;
-  stamp(g, 23, 4, [
-    "    .--------.    ",
-    "  .'          '.  ",
-    " /              \\",
-    `|    ${on ? "########" : "........"}    |`,
-    `|    ${on ? "##    ##" : "..    .."}    |`,
-    " \\              /",
-    "  '.__      __.'  ",
-    "      |    |      ",
-    "      |____|      ",
-    "      [____]      ",
+  const on = p >= 0.28;
+  const glow = clamp((p - 0.28) / 0.55);
+  text(g, 2, 1, "EMBEDDED CONTROL / ESP32         2.4GHz LINK / REMOTE LAMP");
+
+  stamp(g, 2, 6, [
+    "+--------------------+",
+    "|  ESP32-WROOM       |",
+    "|  [ Wi-Fi / MCU ]   |",
+    `|  GPIO23 : ${on ? "HIGH " : "LOW  "}   |`,
+    "|  TX    RX    GND   |",
+    "+--------------------+",
   ]);
+  text(g, 8, 14, on ? "TX: LAMP_ON" : "TX: IDLE");
+
+  // Wireless link represented as expanding arcs and a travelling packet.
+  const waveStage = Math.max(0, Math.ceil(glow * 3));
   if (on) {
-    const rays = [
-      [30, 1, "|"], [36, 2, "/"], [42, 4, "/"], [43, 9, "-"],
-      [19, 4, "\\"], [17, 9, "-"], [24, 2, "\\"], [30, 0, "+"],
-    ];
-    const count = Math.min(rays.length, Math.floor((p - .32) * 20));
-    for (const [x, y, c] of rays.slice(0, count)) glyph(g, x, y, c);
-    if (p > .59) text(g, 39, 17, "CIRCUIT CLOSED");
+    if (waveStage >= 1) {
+      text(g, 24, 8, "))");
+      text(g, 24, 10, "))");
+    }
+    if (waveStage >= 2) {
+      text(g, 28, 7, "))) ");
+      text(g, 28, 11, "))) ");
+    }
+    if (waveStage >= 3) {
+      text(g, 33, 6, "))))");
+      text(g, 33, 12, "))))");
+    }
   } else {
-    text(g, 39, 17, "SWITCH / OPEN");
+    text(g, 24, 9, ". .");
+    text(g, 29, 9, ". .");
+    text(g, 34, 9, ". .");
   }
-  text(g, 5, 20, on ? "+3.3V  >>>  IDEA TO PROTOTYPE" : "+3.3V  >>>  STANDBY");
-  return raster(g);
-}
+  const packetX = on ? 21 + Math.round(glow * 18) : 21;
+  glyph(g, packetX, 9, on ? ">" : ".");
 
-function speakingFrame(p) {
-  const g = blank();
-  stars(g, 13, 10);
-  // A person speaking into a microphone from behind a simple podium.
-  stamp(g, 9, 4, [
-    "     .---.           ",
-    "     (o o)          ",
-    "      \\_/           ",
-    "     _/|\\_          ",
-    "    /  |  \\         ",
-    "   +---------+       ",
-    "   |  SPEAK  |       ",
-    "   | / MUN   |       ",
-    "   +---------+       ",
-    "       ||            ",
-    "      _||_           ",
+  // Receiver board and lamp: receiver is wired to the bulb; ESP32 is not.
+  stamp(g, 40, 7, [
+    "+----------+   +---+ ",
+    "| RX NODE  |---|   | ",
+    "| ANT  MCU |   |   | ",
+    "+----------+   |   | ",
+    "       |        +---+ ",
+    "      GND         |   ",
   ]);
-  text(g, 25, 8, "o-- MICROPHONE");
-  const waveCount = Math.floor(p * 4) + 1;
-  for (let i = 0; i < waveCount; i++) {
-    const x = 30 + i * 5;
-    glyph(g, x, 11 - i % 2, ")");
-    glyph(g, x, 12 + i % 2, ")");
+  // Better bulb shape centered above the receiver output.
+  stamp(g, 49, 6, [
+    "  .---.  ",
+    ` /${on ? "#####" : "....."}\\ `,
+    `| ${on ? "###" : "..."} | `,
+    ` \\${on ? "###" : "..."}/ `,
+    "  '---'  ",
+    "   |_|   ",
+  ]);
+
+  if (on) {
+    const rings = [
+      [
+        [53, 5, "|"], [53, 12, "|"], [47, 9, "-"], [59, 9, "-"],
+        [49, 6, "\\"], [57, 6, "/"], [49, 12, "/"], [57, 12, "\\"],
+      ],
+      [
+        [53, 4, "|"], [53, 13, "|"], [45, 9, "-"],
+        [48, 5, "\\"], [58, 5, "/"], [48, 13, "/"], [58, 13, "\\"],
+      ],
+      [
+        [53, 3, "|"], [53, 14, "|"], [43, 9, "-"],
+        [47, 4, "\\"], [59, 4, "/"], [47, 14, "/"], [59, 14, "\\"],
+      ],
+    ];
+    const visibleRings = Math.min(rings.length, Math.max(1, Math.ceil(glow * rings.length)));
+    rings.slice(0, visibleRings).forEach((ring) => ring.forEach(([x, y, c]) => glyph(g, x, y, c)));
   }
-  if (p > 0.38) {
-    text(g, 29, 16, "DISCUSS  /  DEBATE");
-    text(g, 29, 18, "LEAD     /  CONNECT");
-  }
-  if (p > 0.66) text(g, 29, 20, "IDEAS  --->  IMPACT");
-  text(g, 3, 20, "MUN / TALKS");
+
+  text(g, 40, 18, on ? "REMOTE LIGHT / LINK ACTIVE" : "REMOTE LIGHT / STANDBY");
+  text(g, 2, 20, on ? "GPIO23 : 1  /  RF TX ACTIVE  /  RECEIVER ON" : "GPIO23 : 0  /  RF TX IDLE   /  RECEIVER WAIT");
   return raster(g);
 }
 
-const renderers = [rocketFrame, carFrame, bulbFrame, speakingFrame];
+const renderers = [satelliteFrame, carFrame, bulbFrame];
 
 function frameAt(ms) {
   const cycleIndex = Math.floor(ms / SCENE_MS) % scenes.length;
@@ -269,7 +296,6 @@ export default function ProjectArchiveReel() {
 
   const { ascii, active, transition } = useMemo(() => {
     if (reducedMotion && !playing) {
-      // Show a composed static scene by default for reduced-motion visitors.
       const index = Math.floor(elapsed / SCENE_MS) % scenes.length;
       return { ascii: renderers[index](0.7), active: index, transition: 0 };
     }
@@ -282,10 +308,10 @@ export default function ProjectArchiveReel() {
   };
 
   return (
-    <div className="archive-reel" role="region" aria-label="Animated ASCII illustration of Harshaa's engineering and leadership projects">
+    <div className="archive-reel" role="region" aria-label="Animated ASCII illustrations of a CubeSat communications link, a vehicle test and telemetry display, and an ESP32 wireless lamp controller">
       <div className="archive-reel-top">
         <span><span className="archive-reel-indicator" aria-hidden="true" /> ASCII / PORTFOLIO.EXE</span>
-        <span>SCENE {scenes[active].id} / 04</span>
+        <span>SCENE {scenes[active].id} / 03</span>
       </div>
       <div className="archive-reel-screen">
         <div className="archive-reel-grid" aria-hidden="true" />
@@ -311,7 +337,7 @@ export default function ProjectArchiveReel() {
           <button type="button" onClick={nextScene} aria-label="Next ASCII scene">NEXT ↗</button>
         </div>
       </div>
-      <div className="archive-reel-progress" aria-hidden="true">
+      <div className="archive-reel-progress" style={{ gridTemplateColumns: `repeat(${scenes.length}, minmax(0, 1fr))` }} aria-hidden="true">
         {scenes.map((scene, i) => <span key={scene.id} className={i === active ? "is-active" : ""} />)}
       </div>
     </div>
