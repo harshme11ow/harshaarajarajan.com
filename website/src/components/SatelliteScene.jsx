@@ -154,12 +154,12 @@ export default function SatelliteScene() {
   const [selected, setSelected] = useState("bus");
   const [paused, setPaused] = useState(false);
   const [screen, setScreen] = useState([]);
-  const [angles, setAngles] = useState({ yaw: -0.37, pitch: -0.18 });
+  const [angles, setAngles] = useState({ yaw: -0.78, pitch: 0.42 });
   const viewport = useRef(null);
   const ascii = useRef(null);
   const size = useRef({ cols: 70, rows: 27 });
   const drag = useRef(null);
-  const angleRef = useRef({ yaw: -0.37, pitch: -0.18 });
+  const angleRef = useRef({ yaw: -0.78, pitch: 0.42 });
   const selectedRef = useRef(selected);
   const pausedRef = useRef(paused);
   const reducedRef = useRef(false);

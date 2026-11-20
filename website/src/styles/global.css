@@ -616,3 +616,331 @@ img, video, svg { max-width: 100%; }
   .originals-feature-copy { padding:26px 20px 30px; }
   .originals-home-teaser { padding-block:35px; margin-bottom:56px; }
 }
+
+/* ========================================================
+   V5 / PROJECT ARCHIVE ASCII STORYBOARD
+   Retro technical animation beside "Project archive."
+   ======================================================== */
+.archive-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .86fr);
+  gap: clamp(24px, 4vw, 66px);
+  align-items: center;
+  margin-bottom: 60px;
+}
+.archive-header .archive-intro {
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+}
+.archive-header .archive-intro h1 {
+  font-size: clamp(52px, 6vw, 96px);
+  line-height: 1.07;
+}
+.archive-header .archive-intro p {
+  max-width: 580px;
+}
+.archive-reel-column { min-width: 0; }
+.archive-reel {
+  border: 1px solid var(--line-strong);
+  color: var(--blue);
+  background: #071e2d;
+  box-shadow: 0 24px 70px rgba(0, 8, 18, .22);
+  overflow: hidden;
+  min-width: 0;
+}
+.archive-reel-top {
+  min-height: 41px;
+  padding: 0 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted-2);
+  font: 500 9px var(--mono);
+  letter-spacing: .08em;
+}
+.archive-reel-indicator {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+  margin-right: 6px;
+  vertical-align: middle;
+  opacity: .7;
+}
+.archive-reel-screen {
+  position: relative;
+  width: 100%;
+  min-height: 286px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 51% 48%, rgba(32, 87, 116, .18), transparent 72%), #071a28;
+}
+.archive-reel-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(140, 195, 216, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 195, 216, .05) 1px, transparent 1px);
+  background-size: 27px 27px;
+  mask-image: radial-gradient(ellipse, black 25%, transparent 85%);
+  pointer-events: none;
+}
+.archive-reel-ascii {
+  position: relative;
+  z-index: 1;
+  width: 60ch;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  white-space: pre;
+  font: 500 10px/1.18 var(--mono);
+  color: #a9d3df;
+  text-shadow: 0 0 13px rgba(80, 159, 189, .13);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.archive-reel-sweep {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: rgba(166, 221, 236, .38);
+  box-shadow: 0 0 20px 8px rgba(101, 194, 221, .07);
+  pointer-events: none;
+}
+.archive-reel-corner {
+  position: absolute;
+  left: 13px;
+  bottom: 8px;
+  color: rgba(160, 205, 220, .45);
+  font: 8px var(--mono);
+  letter-spacing: .08em;
+}
+.archive-reel-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  padding: 13px 14px;
+  border-top: 1px solid var(--line);
+}
+.archive-reel-description {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  font: 500 9px var(--mono);
+  line-height: 1.5;
+  letter-spacing: .07em;
+}
+.archive-reel-description strong { color: var(--blue); font-weight: 600; }
+.archive-reel-description span { color: var(--muted-2); }
+.archive-reel-actions { display: flex; flex-shrink: 0; gap: 4px; }
+.archive-reel-actions button {
+  border: 1px solid var(--line);
+  padding: 7px 8px;
+  background: transparent;
+  color: var(--muted);
+  font: 500 9px var(--mono);
+  letter-spacing: .04em;
+}
+.archive-reel-actions button:hover { color: var(--ink); background: var(--surface); border-color: var(--line-strong); }
+.archive-reel-actions button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.archive-reel-progress { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 0 14px 12px; }
+.archive-reel-progress span { height: 2px; background: #21485b; transition: background .25s; }
+.archive-reel-progress span.is-active { background: #a8d8e4; }
+
+@media (max-width: 1130px) {
+  .archive-header { grid-template-columns: minmax(0, 1fr) minmax(340px, .92fr); gap: 22px; }
+  .archive-header .archive-intro h1 { font-size: clamp(43px, 5.3vw, 70px); }
+  .archive-reel-ascii { font-size: 9px; }
+}
+@media (max-width: 850px) {
+  .archive-header { grid-template-columns: minmax(0, 1fr); gap: 26px; margin-bottom: 38px; }
+  .archive-reel-column { width: 100%; max-width: 590px; }
+  .archive-header .archive-intro h1 { font-size: clamp(43px, 10vw, 73px); }
+  .archive-reel-ascii { font-size: clamp(7.2px, 1.4vw, 10px); }
+}
+@media (max-width: 500px) {
+  .archive-reel-screen { min-height: 230px; }
+  .archive-reel-ascii { font-size: clamp(6px, 2vw, 8px); line-height: 1.22; }
+  .archive-reel-top { padding-inline: 11px; font-size: 8px; }
+  .archive-reel-bottom { padding: 11px; }
+  .archive-reel-actions button { font-size: 8px; padding: 7px 6px; }
+  .archive-reel-progress { padding-inline: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .archive-reel-sweep { display: none; }
+  .archive-reel-progress span { transition: none; }
+}
+
+/* ========================================================
+   V5 / PROJECT ARCHIVE ASCII STORYBOARD
+   Retro technical animation beside "Project archive."
+   ======================================================== */
+.archive-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .86fr);
+  gap: clamp(24px, 4vw, 66px);
+  align-items: center;
+  margin-bottom: 60px;
+}
+.archive-header .archive-intro {
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+}
+.archive-header .archive-intro h1 {
+  font-size: clamp(52px, 6vw, 96px);
+  line-height: 1.07;
+}
+.archive-header .archive-intro p {
+  max-width: 580px;
+}
+.archive-reel-column { min-width: 0; }
+.archive-reel {
+  border: 1px solid var(--line-strong);
+  color: var(--blue);
+  background: #071e2d;
+  box-shadow: 0 24px 70px rgba(0, 8, 18, .22);
+  overflow: hidden;
+  min-width: 0;
+}
+.archive-reel-top {
+  min-height: 41px;
+  padding: 0 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted-2);
+  font: 500 9px var(--mono);
+  letter-spacing: .08em;
+}
+.archive-reel-indicator {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+  margin-right: 6px;
+  vertical-align: middle;
+  opacity: .7;
+}
+.archive-reel-screen {
+  position: relative;
+  width: 100%;
+  min-height: 286px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 51% 48%, rgba(32, 87, 116, .18), transparent 72%), #071a28;
+}
+.archive-reel-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(140, 195, 216, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 195, 216, .05) 1px, transparent 1px);
+  background-size: 27px 27px;
+  mask-image: radial-gradient(ellipse, black 25%, transparent 85%);
+  pointer-events: none;
+}
+.archive-reel-ascii {
+  position: relative;
+  z-index: 1;
+  width: 60ch;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  white-space: pre;
+  font: 500 10px/1.18 var(--mono);
+  color: #a9d3df;
+  text-shadow: 0 0 13px rgba(80, 159, 189, .13);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.archive-reel-sweep {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: rgba(166, 221, 236, .38);
+  box-shadow: 0 0 20px 8px rgba(101, 194, 221, .07);
+  pointer-events: none;
+}
+.archive-reel-corner {
+  position: absolute;
+  left: 13px;
+  bottom: 8px;
+  color: rgba(160, 205, 220, .45);
+  font: 8px var(--mono);
+  letter-spacing: .08em;
+}
+.archive-reel-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  padding: 13px 14px;
+  border-top: 1px solid var(--line);
+}
+.archive-reel-description {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  font: 500 9px var(--mono);
+  line-height: 1.5;
+  letter-spacing: .07em;
+}
+.archive-reel-description strong { color: var(--blue); font-weight: 600; }
+.archive-reel-description span { color: var(--muted-2); }
+.archive-reel-actions { display: flex; flex-shrink: 0; gap: 4px; }
+.archive-reel-actions button {
+  border: 1px solid var(--line);
+  padding: 7px 8px;
+  background: transparent;
+  color: var(--muted);
+  font: 500 9px var(--mono);
+  letter-spacing: .04em;
+}
+.archive-reel-actions button:hover { color: var(--ink); background: var(--surface); border-color: var(--line-strong); }
+.archive-reel-actions button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.archive-reel-progress { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 0 14px 12px; }
+.archive-reel-progress span { height: 2px; background: #21485b; transition: background .25s; }
+.archive-reel-progress span.is-active { background: #a8d8e4; }
+
+@media (max-width: 1130px) {
+  .archive-header { grid-template-columns: minmax(0, 1fr) minmax(340px, .92fr); gap: 22px; }
+  .archive-header .archive-intro h1 { font-size: clamp(43px, 5.3vw, 70px); }
+  .archive-reel-ascii { font-size: 9px; }
+}
+@media (max-width: 850px) {
+  .archive-header { grid-template-columns: minmax(0, 1fr); gap: 26px; margin-bottom: 38px; }
+  .archive-reel-column { width: 100%; max-width: 590px; }
+  .archive-header .archive-intro h1 { font-size: clamp(43px, 10vw, 73px); }
+  .archive-reel-ascii { font-size: clamp(7.2px, 1.4vw, 10px); }
+}
+@media (max-width: 500px) {
+  .archive-reel-screen { min-height: 230px; }
+  .archive-reel-ascii { font-size: clamp(6px, 2vw, 8px); line-height: 1.22; }
+  .archive-reel-top { padding-inline: 11px; font-size: 8px; }
+  .archive-reel-bottom { padding: 11px; }
+  .archive-reel-actions button { font-size: 8px; padding: 7px 6px; }
+  .archive-reel-progress { padding-inline: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .archive-reel-sweep { display: none; }
+  .archive-reel-progress span { transition: none; }
+}
